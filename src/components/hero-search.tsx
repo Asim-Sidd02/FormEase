@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useId, useMemo, useRef, useState } from "react";
-import { ArrowRight, Search, Sparkles } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { publicProcesses } from "@/content/processes";
 import { EXAMPLE_QUERIES, suggest } from "@/lib/search";
 import { IconTile } from "./icon";
@@ -30,7 +30,7 @@ export function HeroSearch({ size = "lg", initial = "", autoFocus }: { size?: "l
       <form onSubmit={submit} role="search" className="relative">
         <div
           className={cn(
-            "flex items-center gap-2 rounded-2xl border bg-surface shadow-lift transition-[border-color,box-shadow]",
+            "flex items-center gap-2 rounded-xl border bg-surface shadow-[0_8px_24px_-18px_rgba(24,58,44,0.45)] transition-[border-color,box-shadow]",
             focus ? "border-brand ring-4 ring-brand/12" : "border-line-strong",
             size === "lg" ? "p-2 pl-4 sm:pl-5" : "p-1.5 pl-3.5",
           )}
@@ -103,13 +103,13 @@ export function HeroSearch({ size = "lg", initial = "", autoFocus }: { size?: "l
       {size === "lg" && (
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="flex items-center gap-1 text-[13px] font-semibold text-muted">
-            <Sparkles className="size-3.5 text-accent" aria-hidden /> Try:
+            <Search className="size-3.5 text-brand" aria-hidden /> Try searching:
           </span>
           {EXAMPLE_QUERIES.slice(0, 4).map((ex) => (
             <button
               key={ex}
               onClick={() => router.push(`/search?q=${encodeURIComponent(ex)}`)}
-              className="rounded-full border border-line bg-surface/70 px-3 py-1 text-[13px] font-medium text-muted transition hover:border-brand/40 hover:text-fg"
+              className="rounded-lg border border-line bg-surface/80 px-3 py-1 text-[13px] font-medium text-muted transition hover:border-brand/40 hover:text-fg"
             >
               {ex}
             </button>

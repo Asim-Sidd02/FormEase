@@ -59,7 +59,7 @@ export function Badge({ tone = "neutral", children, className, icon }: { tone?: 
 
 export function Card({ className, children, ...rest }: ComponentProps<"div">) {
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface shadow-soft", className)} {...rest}>
+    <div className={cn("rounded-xl border border-line bg-surface", className)} {...rest}>
       {children}
     </div>
   );
@@ -67,10 +67,10 @@ export function Card({ className, children, ...rest }: ComponentProps<"div">) {
 
 export function SectionTitle({ eyebrow, title, desc, action, id }: { eyebrow?: string; title: ReactNode; desc?: ReactNode; action?: ReactNode; id?: string }) {
   return (
-    <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
       <div className="max-w-2xl">
-        {eyebrow && <p className="mb-1.5 text-xs font-bold uppercase tracking-[0.12em] text-brand">{eyebrow}</p>}
-        <h2 id={id} className="font-display text-2xl font-semibold sm:text-[28px]">{title}</h2>
+        {eyebrow && <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-brand">{eyebrow}</p>}
+        <h2 id={id} className="font-display text-[25px] font-semibold leading-tight sm:text-[30px]">{title}</h2>
         {desc && <p className="mt-1.5 text-muted">{desc}</p>}
       </div>
       {action}

@@ -50,14 +50,14 @@ export const aadhaarAddressUpdate: Process = {
   fees: [
     {
       label: "Address update at an Aadhaar centre",
-      amount: "Nominal fee (around ₹50–₹75)",
-      note: "UIDAI revises this fee from time to time — confirm the current amount on uidai.gov.in.",
+      amount: "₹50",
+      note: "Per the UIDAI Citizens' Charter (January 2024 edition), which also points to the UIDAI website for the latest charges.",
       kind: "government",
     },
     {
       label: "Online address update on myAadhaar",
-      amount: "Nominal fee or free",
-      note: "UIDAI has offered fee waivers for online document updates for limited periods. Check myAadhaar for the current fee before paying.",
+      amount: "₹25",
+      note: "Per the UIDAI Citizens' Charter. UIDAI has offered fee waivers for online document updates for limited periods — myAadhaar shows the amount before you pay.",
       kind: "government",
     },
   ],
@@ -285,7 +285,9 @@ export const aadhaarAddressUpdate: Process = {
   ],
   sources: [
     { title: "myAadhaar — online update services", org: "UIDAI", url: "https://myaadhaar.uidai.gov.in/" },
-    { title: "UIDAI — list of supporting documents and update fees", org: "UIDAI", url: "https://uidai.gov.in/" },
+    { title: "UIDAI — updating data on Aadhaar", org: "UIDAI", url: "https://uidai.gov.in/en/updating-data-on-aadhaar" },
+    { title: "UIDAI — list of supporting documents (PDF)", org: "UIDAI", url: "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf" },
+    { title: "UIDAI Citizens' Charter — update charges (PDF)", org: "UIDAI", url: "https://backend.uidai.gov.in/get/files/media/document/2026-05/Citizen_Charter_Jan24.pdf" },
   ],
   faqs: [
     { q: "Can I update my address without a document in my name?", a: "Yes — use the Head of Family route, where a family member with that address on their Aadhaar approves your request, along with a proof of relationship." },
@@ -300,11 +302,11 @@ export const aadhaarAddressUpdate: Process = {
     { term: "Pending HoF approval", meaning: "Waiting for the Head of Family to approve.", next: "Remind the HoF to approve on their myAadhaar before the request expires." },
   ],
   related: ["passport-renewal", "voter-id", "pan-card"],
-  lastVerified: "2026-11-05",
+  lastVerified: "2026-11-22",
   reviewDue: "2027-02-05",
   status: "published",
   owner: "Identity desk",
-  version: "1.2",
+  version: "1.3",
   limitations:
     "This guide covers address updates only. Name, date of birth, gender and biometric updates follow different rules and limits.",
 };

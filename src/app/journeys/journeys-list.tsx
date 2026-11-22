@@ -100,7 +100,7 @@ export function JourneysList() {
               { value: "archived", label: "Archived", count: counts.archived },
             ]}
           />
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
             {list.map(({ j, p, v }) => {
               const meta = JOURNEY_STATUS_META[v.status];
               return (

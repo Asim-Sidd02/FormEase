@@ -65,7 +65,7 @@ export default function AdminDashboard() {
         </ul>
       </Card>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Card className="p-5">
           <div className="flex items-center justify-between">
             <h2 className="font-bold">Review schedule</h2>

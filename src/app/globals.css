@@ -3,21 +3,21 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg: #f6f5f1;
+  --bg: #f5f7f6;
   --surface: #ffffff;
-  --surface-2: #f1efe9;
-  --surface-3: #e9e6dd;
-  --fg: #13201b;
-  --muted: #56625d;
-  --subtle: #848e89;
-  --line: #e3e0d6;
-  --line-strong: #cfcabd;
-  --brand: #0d6b54;
-  --brand-strong: #09523f;
-  --brand-soft: #e2f1eb;
+  --surface-2: #edf2ef;
+  --surface-3: #e2eae5;
+  --fg: #1b2a25;
+  --muted: #5b6963;
+  --subtle: #7d8a83;
+  --line: #dce4df;
+  --line-strong: #c4d0c9;
+  --brand: #175b48;
+  --brand-strong: #104535;
+  --brand-soft: #e3eee8;
   --brand-fg: #ffffff;
-  --accent: #e8962c;
-  --accent-soft: #fcefd9;
+  --accent: #bd7b32;
+  --accent-soft: #f6eddf;
   --info: #1f5fd6;
   --info-soft: #e5edfc;
   --success: #12733a;
@@ -26,7 +26,7 @@
   --warning-soft: #fcefd8;
   --danger: #b42318;
   --danger-soft: #fbe8e6;
-  --shadow: 20 30 25;
+  --shadow: 24 43 34;
   color-scheme: light;
 }
 
@@ -40,12 +40,12 @@
   --subtle: #6d7b75;
   --line: #222e29;
   --line-strong: #314039;
-  --brand: #3cc19a;
-  --brand-strong: #6dd6b5;
-  --brand-soft: #10302a;
+  --brand: #62b99a;
+  --brand-strong: #8ad0b5;
+  --brand-soft: #14342a;
   --brand-fg: #04130e;
-  --accent: #f4b357;
-  --accent-soft: #33250e;
+  --accent: #e2ad6e;
+  --accent-soft: #322719;
   --info: #84aefc;
   --info-soft: #14213b;
   --success: #5bd88d;
@@ -86,10 +86,10 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
 
-  --shadow-soft: 0 1px 2px rgb(var(--shadow) / 0.04), 0 4px 16px -4px rgb(var(--shadow) / 0.08);
-  --shadow-lift: 0 2px 4px rgb(var(--shadow) / 0.05), 0 16px 40px -12px rgb(var(--shadow) / 0.18);
+  --shadow-soft: 0 1px 2px rgb(var(--shadow) / 0.035), 0 3px 10px -5px rgb(var(--shadow) / 0.055);
+  --shadow-lift: 0 1px 3px rgb(var(--shadow) / 0.05), 0 10px 24px -16px rgb(var(--shadow) / 0.12);
 
-  --animate-fade-up: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-fade-up: fade-up 0.32s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-fade-in: fade-in 0.25s ease-out both;
   --animate-scale-in: scale-in 0.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-slide-up: slide-up 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -140,7 +140,7 @@
   }
   h1, h2, h3, h4 {
     text-wrap: balance;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
   }
   p {
     text-wrap: pretty;
@@ -164,6 +164,11 @@
     background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
     background-size: 22px 22px;
   }
+  .surface-card {
+    border: 1px solid var(--line);
+    border-radius: 0.875rem;
+    background: var(--surface);
+  }
   .prose-fe p + p { margin-top: 0.75rem; }
   .scrollbar-none { scrollbar-width: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
@@ -181,4 +186,14 @@
 @media print {
   header, footer, nav, .no-print { display: none !important; }
   body { background: white; color: black; }
+}
+
+/* Keep shared card surfaces consistent even in older route-specific layouts. */
+[class~="rounded-2xl"][class~="border"][class~="bg-surface"] {
+  border-radius: 0.875rem;
+  box-shadow: none;
+}
+[class~="rounded-3xl"][class~="border"][class~="bg-surface"] {
+  border-radius: 1rem;
+  box-shadow: none;
 }

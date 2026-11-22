@@ -50,7 +50,7 @@ export function SignInForm({ next }: { next: string }) {
   };
 
   return (
-    <div className="container-page grid min-h-[calc(100dvh-4rem)] items-center gap-10 py-10 lg:grid-cols-2">
+    <div className="container-page grid grid-cols-1 min-h-[calc(100dvh-4rem)] items-center gap-10 py-10 lg:grid-cols-2">
       <div className="mx-auto w-full max-w-md animate-fade-up">
         <LogoMark className="size-11" />
         {stage === "form" ? (

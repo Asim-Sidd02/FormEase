@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Lightbulb, MessageSquarePlus, SearchX, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, Lightbulb, MessageSquarePlus, SearchX, X } from "lucide-react";
 import { HeroSearch } from "@/components/hero-search";
 import { ProcessRow, ProcessCard } from "@/components/process-card";
 import { EmptyState, cn, buttonClass } from "@/components/ui";
@@ -55,7 +55,7 @@ export function SearchView({ initialQuery, initialCategory }: { initialQuery: st
         </div>
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[240px_1fr]">
         {/* Filters */}
         <aside aria-label="Filters" className="lg:sticky lg:top-24 lg:self-start">
           <div className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:block lg:space-y-6 lg:overflow-visible lg:px-0">
@@ -106,11 +106,32 @@ export function SearchView({ initialQuery, initialCategory }: { initialQuery: st
           </div>
 
           {results.length > 0 ? (
-            <div className="space-y-3">
-              {results.map((h) => (
-                <ProcessRow key={h.process.slug} p={h.process} matched={h.matched} />
-              ))}
-            </div>
+            <>
+              {q.trim() && results[0].score >= 6 && (
+                <div className="mb-4 rounded-xl border border-brand/25 bg-brand-soft/45 p-4 sm:p-5">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-surface text-brand">
+                      <BadgeCheck className="size-5" aria-hidden />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-brand">Best match for your request</p>
+                      <h2 className="mt-1 font-semibold">{results[0].process.title}</h2>
+                      <p className="mt-1 text-sm leading-relaxed text-muted">{results[0].process.summary}</p>
+                    </div>
+                    <Link href={`/process/${results[0].process.slug}/start`} className={buttonClass("primary", "md", "shrink-0")}
+                    >
+                      Personalise my steps <ArrowRight className="size-4" />
+                    </Link>
+                  </div>
+                  <p className="mt-3 border-t border-brand/15 pt-3 text-xs text-muted">Answer a few questions to get the steps and document checklist that apply to your situation. You can review every answer before building your roadmap.</p>
+                </div>
+              )}
+              <div className="space-y-3">
+                {results.map((h) => (
+                  <ProcessRow key={h.process.slug} p={h.process} matched={h.matched} />
+                ))}
+              </div>
+            </>
           ) : (
             <div className="space-y-8">
               <EmptyState
@@ -131,7 +152,7 @@ export function SearchView({ initialQuery, initialCategory }: { initialQuery: st
                 <h2 className="mb-3 flex items-center gap-2 font-bold">
                   <Lightbulb className="size-4 text-accent" /> People often look for
                 </h2>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {POPULAR.slice(0, 4).map((s) => {
                     const p = getProcess(s)!;
                     return <ProcessCard key={s} p={p} />;

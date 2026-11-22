@@ -174,7 +174,7 @@ export function ProcessEditor({ slug }: { slug: string }) {
             <Field label="Public summary" htmlFor="ed-summary" hint="Shown on cards and at the top of the guide. Plain language, one or two sentences.">
               <textarea id="ed-summary" rows={3} value={summary} onChange={(e) => setSummary(e.target.value)} className={inputClass} disabled={!canEdit} maxLength={280} />
             </Field>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Content owner" htmlFor="ed-owner">
                 <input id="ed-owner" value={owner} onChange={(e) => setOwner(e.target.value)} className={inputClass} disabled={!canEdit} />
               </Field>
@@ -182,7 +182,7 @@ export function ProcessEditor({ slug }: { slug: string }) {
                 <input id="ed-review" type="date" value={reviewDue} onChange={(e) => setReviewDue(e.target.value)} className={inputClass} disabled={!canReview} />
               </Field>
             </div>
-            <dl className="grid gap-4 rounded-xl bg-surface-2/60 p-4 text-sm sm:grid-cols-3">
+            <dl className="grid grid-cols-1 gap-4 rounded-xl bg-surface-2/60 p-4 text-sm sm:grid-cols-3">
               <div><dt className="text-xs text-muted">Scope</dt><dd className="font-semibold">{p.scope}</dd></div>
               <div><dt className="text-xs text-muted">Complexity</dt><dd className="font-semibold">{p.complexity}</dd></div>
               <div><dt className="text-xs text-muted">Related</dt><dd className="font-semibold">{p.related.length} guides</dd></div>

@@ -93,7 +93,7 @@ export function Wizard({ slug, journeyId }: { slug: string; journeyId?: string }
   if (phase === "building") return <Building process={p.shortTitle} steps={applicableSteps(p, answers).length} docs={applicableDocuments(p, answers).length} />;
 
   return (
-    <div className="container-page max-w-2xl pb-16 pt-6 sm:pt-10">
+    <div className="container-page max-w-2xl overflow-x-clip pb-16 pt-6 sm:pt-10">
       <div className="flex items-center justify-between gap-3">
         <button onClick={back} className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-semibold text-muted hover:bg-surface-2 hover:text-fg">
           <ArrowLeft className="size-4" /> Back
@@ -215,7 +215,7 @@ function Options({ q, value, onChoose }: { q: WizardQuestion; value?: string; on
   }, [q, onChoose]);
 
   return (
-    <div role="radiogroup" aria-label={q.question} className="grid gap-3">
+    <div role="radiogroup" aria-label={q.question} className="grid grid-cols-1 gap-3">
       {q.options!.map((o, i) => {
         const on = value === o.value;
         return (
@@ -276,7 +276,7 @@ function StatePicker({ value, onChoose }: { value?: string; onChoose: (v: string
           className="w-full rounded-2xl border border-line-strong bg-surface py-3.5 pl-10 pr-4 text-[15px] outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/12"
         />
       </div>
-      <div role="radiogroup" aria-label="State or union territory" className="mt-3 grid max-h-[340px] gap-1.5 overflow-y-auto rounded-2xl border border-line bg-surface p-1.5 sm:grid-cols-2">
+      <div role="radiogroup" aria-label="State or union territory" className="mt-3 grid grid-cols-1 max-h-[340px] gap-1.5 overflow-y-auto rounded-2xl border border-line bg-surface p-1.5 sm:grid-cols-2">
         {list.map((s) => (
           <button
             key={s}

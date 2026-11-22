@@ -20,7 +20,7 @@ export default function HowItWorks() {
       <div className="container-page max-w-4xl py-12">
         <ol className="space-y-6">
           {steps.map((s, i) => (
-            <li key={s.title} className="grid gap-5 rounded-3xl border border-line bg-surface p-6 shadow-soft sm:grid-cols-[auto_1fr] sm:p-8">
+            <li key={s.title} className="grid grid-cols-1 gap-5 rounded-3xl border border-line bg-surface p-6 shadow-soft sm:grid-cols-[auto_1fr] sm:p-8">
               <div className="flex items-center gap-3 sm:flex-col sm:items-start">
                 <span className="grid size-14 place-items-center rounded-2xl bg-brand text-brand-fg">
                   <s.icon className="size-6" aria-hidden />
@@ -30,7 +30,7 @@ export default function HowItWorks() {
               <div>
                 <h2 className="font-display text-2xl font-semibold">{s.title}</h2>
                 <p className="mt-2 text-muted">{s.desc}</p>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-3">
+                <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {s.detail.map((d) => (
                     <li key={d} className="rounded-xl bg-surface-2/70 px-3 py-2 text-sm font-medium">{d}</li>
                   ))}
@@ -41,7 +41,7 @@ export default function HowItWorks() {
         </ol>
 
         <h2 className="mt-16 font-display text-2xl font-semibold">And when you need a hand</h2>
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
+        <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
           {[
             { icon: MessageCircleQuestion, t: "Ask the assistant", d: "Plain-language answers grounded in verified guides, with sources. It says so when it can't verify something." },
             { icon: LifeBuoy, t: "Status & rejection help", d: "Paste a returned-application reason to understand what it may mean and prepare a resubmission." },

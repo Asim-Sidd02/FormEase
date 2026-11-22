@@ -13,7 +13,7 @@ export function ProcessCard({ p, className }: { p: Process; className?: string }
     <Link
       href={`/process/${p.slug}`}
       className={cn(
-        "group relative flex flex-col rounded-2xl border border-line bg-surface p-5 shadow-soft transition duration-200 hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-lift",
+        "group relative flex flex-col rounded-xl border border-line bg-surface p-5 transition duration-200 hover:border-brand/50 hover:bg-surface-2/45",
         className,
       )}
     >
@@ -39,7 +39,7 @@ export function ProcessRow({ p, matched }: { p: Process; matched?: string[] }) {
   return (
     <Link
       href={`/process/${p.slug}`}
-      className="group flex gap-4 rounded-2xl border border-line bg-surface p-4 shadow-soft transition hover:border-brand/40 hover:shadow-lift sm:p-5"
+      className="group flex gap-4 rounded-xl border border-line bg-surface p-4 transition hover:border-brand/50 hover:bg-surface-2/35 sm:p-5"
     >
       <IconTile name={p.icon} category={p.category} />
       <div className="min-w-0 flex-1">

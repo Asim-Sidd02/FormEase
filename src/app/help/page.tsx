@@ -60,7 +60,7 @@ export default function Help() {
             </section>
           ))}
         </div>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
+        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="rounded-2xl border border-line bg-surface p-5">
             <Sparkles className="size-5 text-brand" />
             <h2 className="mt-2 font-bold">Ask about a process</h2>

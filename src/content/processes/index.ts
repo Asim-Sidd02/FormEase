@@ -9,6 +9,11 @@ import { birthCertificate } from "./birth-certificate";
 import { incomeCertificate } from "./income-certificate";
 import { casteCertificate } from "./caste-certificate";
 import { domicileCertificate } from "./domicile-certificate";
+import { udyamRegistration } from "./udyam-registration";
+import { nspScholarship } from "./nsp-scholarship";
+import { epfAfterJobChange } from "./epf-after-job-change";
+import { propertyRegistration } from "./property-registration";
+import { pmKisan } from "./pm-kisan";
 
 export const processes: Process[] = [
   passportNew,
@@ -21,6 +26,11 @@ export const processes: Process[] = [
   incomeCertificate,
   casteCertificate,
   domicileCertificate,
+  udyamRegistration,
+  nspScholarship,
+  epfAfterJobChange,
+  propertyRegistration,
+  pmKisan,
 ];
 
 /** Statuses that are visible on the public site. */

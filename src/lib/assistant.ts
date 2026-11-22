@@ -12,12 +12,19 @@ import type { Journey, Process } from "./types";
 /*  context to add free-form generation.                               */
 /* ------------------------------------------------------------------ */
 
-export type Block = { type: "p"; text: string } | { type: "ul"; items: string[] } | { type: "note"; text: string };
+export type Block =
+  | { type: "p"; text: string }
+  | { type: "ul"; items: string[] }
+  | { type: "note"; text: string }
+  /** Verbatim passage from a live official page. */
+  | { type: "quote"; text: string; org: string; url: string; fetchedAt?: string; heading?: string };
 
 export interface AssistantReply {
   blocks: Block[];
   sources: { label: string; url: string }[];
-  grounding: "verified" | "general" | "not_found";
+  grounding: "verified" | "official" | "general" | "not_found";
+  /** The process the answer was resolved against (used to look up live official passages). */
+  processSlug?: string;
   redacted?: boolean;
   suggestions?: string[];
 }
@@ -57,6 +64,33 @@ export function suggestionsFor(p?: Process, j?: Journey): string[] {
 }
 
 export function answer(question: string, opts: { process?: Process; journey?: Journey }): AssistantReply {
+  let process = opts.process;
+  if (!process) {
+    const hit = searchProcesses(stripPlaceholders(redact(question).text).toLowerCase(), publicProcesses)[0];
+    if (hit && hit.score >= 4) process = hit.process;
+  }
+  return { ...answerFromGuide(question, { ...opts, process }), processSlug: process?.slug };
+}
+
+/** Merge verbatim passages from live official pages into a guide-based reply. */
+export function withOfficial(reply: AssistantReply, passages: { text: string; org: string; url: string; fetchedAt?: string; heading?: string }[]): AssistantReply {
+  if (!passages.length || reply.blocks.some((b) => b.type === "p" && /can't help create/.test(b.text))) return reply;
+  const quotes: Block[] = passages.slice(0, 3).map((p) => ({ type: "quote", text: p.text, org: p.org, url: p.url, fetchedAt: p.fetchedAt, heading: p.heading }));
+  if (reply.grounding === "not_found") {
+    return {
+      ...reply,
+      grounding: "official",
+      blocks: [
+        { type: "p", text: "Our guide doesn't cover that, but the official page says:" },
+        ...quotes,
+        { type: "note", text: "Quoted word-for-word from the official source. If it doesn't answer your exact situation, contact the issuing office." },
+      ],
+    };
+  }
+  return { ...reply, blocks: [...reply.blocks, { type: "p", text: "**What the official page says right now:**" }, ...quotes] };
+}
+
+function answerFromGuide(question: string, opts: { process?: Process; journey?: Journey }): AssistantReply {
   const { text: q, changed: redacted } = redact(question);
   const lower = stripPlaceholders(q).toLowerCase();
   let { process } = opts;
@@ -284,13 +318,16 @@ export function answer(question: string, opts: { process?: Process; journey?: Jo
     };
   }
 
-  // 13. Best-match retrieval over FAQs, steps, mistakes and tips
+  // 13. Best-match retrieval across the complete curated guide.
   const tokens = tokenize(lower);
   type Chunk = { text: string; title: string; score: number };
   const chunks: Chunk[] = [
     ...process.faqs.map((f) => ({ title: f.q, text: f.a, score: 0 })),
-    ...steps.map((s) => ({ title: s.title, text: `${s.summary} ${s.action}`, score: 0 })),
+    ...steps.map((s) => ({ title: s.title, text: `${s.summary} ${s.action} ${(s.details ?? []).join(" ")} ${(s.warnings ?? []).join(" ")}`, score: 0 })),
     ...docs.map((d) => ({ title: d.name, text: `${d.why} ${d.format ?? ""}`, score: 0 })),
+    ...process.prerequisites.map((text) => ({ title: "Before you start", text, score: 0 })),
+    ...process.mistakes.map((text) => ({ title: "Common mistake to avoid", text, score: 0 })),
+    ...process.tips.map((text) => ({ title: "Practical tip", text, score: 0 })),
   ];
   for (const c of chunks) {
     const hay = `${c.title} ${c.text}`.toLowerCase();

@@ -27,6 +27,7 @@ import {
   History,
   Link2,
   ClipboardList,
+  Radio,
 } from "lucide-react";
 import { useHydrated, useProcess } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
@@ -42,9 +43,11 @@ import { toast } from "@/components/toast";
 import { StepItem } from "./step-item";
 import { Checklist } from "./checklist";
 import { StatusHelp } from "./status-help";
+import { OfficialLive } from "@/components/official-live";
+import { useOfficialData } from "@/lib/sources/client";
 import type { Journey, Process } from "@/lib/types";
 
-type Tab = "roadmap" | "checklist" | "links" | "activity";
+type Tab = "roadmap" | "checklist" | "official" | "links" | "activity";
 
 export function JourneyView({ id, isNew }: { id: string; isNew: boolean }) {
   const hydrated = useHydrated();
@@ -99,6 +102,8 @@ function Dashboard({ journey, process: p, isNew }: { journey: Journey; process: 
   const next = v.nextStep;
   const questions = visibleQuestions(p, journey.answers);
   const outdated = journey.contentVersion !== p.version;
+  const official = useOfficialData(p.slug);
+  const officialChanged = (official.data?.sources ?? []).filter((s) => s.status === "changed");
 
   useEffect(() => {
     if (isNew && !welcomed.current) {
@@ -194,6 +199,18 @@ function Dashboard({ journey, process: p, isNew }: { journey: Journey; process: 
         </div>
       )}
 
+      {officialChanged.length > 0 && (
+        <div role="status" className="mt-5 flex flex-col gap-3 rounded-2xl border border-warning/35 bg-warning-soft p-4 sm:flex-row sm:items-center">
+          <Radio className="size-5 shrink-0 text-warning" />
+          <p className="flex-1 text-sm">
+            <strong>An official page for this process changed recently</strong> ({officialChanged.map((s) => s.title ?? s.org).join(", ")}). Some requirements may differ from your roadmap — check the live official wording before your next step.
+          </p>
+          <Button size="sm" variant="outline" onClick={() => setTab("official")}>
+            See what changed
+          </Button>
+        </div>
+      )}
+
       {journey.problem && (
         <div role="alert" className="mt-5 flex flex-col gap-3 rounded-2xl border border-danger/30 bg-danger-soft p-4 sm:flex-row sm:items-center">
           <TriangleAlert className="size-5 shrink-0 text-danger" />
@@ -207,7 +224,7 @@ function Dashboard({ journey, process: p, isNew }: { journey: Journey; process: 
         </div>
       )}
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
         <div className="min-w-0 space-y-6">
           {/* ------------------------------ Next step hero ------------------------------ */}
           {v.status === "completed" ? (
@@ -226,8 +243,7 @@ function Dashboard({ journey, process: p, isNew }: { journey: Journey; process: 
               </div>
             </Card>
           ) : next ? (
-            <section aria-labelledby="next-h" className="relative overflow-hidden rounded-3xl border border-brand/30 bg-gradient-to-br from-brand-soft via-surface to-surface p-5 shadow-lift sm:p-7">
-              <div className="absolute -right-16 -top-16 size-48 rounded-full bg-brand/10 blur-3xl" aria-hidden />
+            <section aria-labelledby="next-h" className="relative overflow-hidden rounded-2xl border border-brand/25 bg-brand-soft/55 p-5 sm:p-7">
               <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-brand">
                 <span className="relative flex size-2">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand opacity-60" />
@@ -273,6 +289,7 @@ function Dashboard({ journey, process: p, isNew }: { journey: Journey; process: 
             tabs={[
               { value: "roadmap", label: <><Route className="size-4" /> Roadmap</>, count: v.steps.length },
               { value: "checklist", label: <><ClipboardList className="size-4" /> Checklist</>, count: v.docsTotal },
+              { value: "official", label: <><Radio className="size-4" /> Live official data</>, count: officialChanged.length || undefined },
               { value: "links", label: <><Link2 className="size-4" /> Official links</> },
               { value: "activity", label: <><History className="size-4" /> Activity</> },
             ]}
@@ -299,9 +316,10 @@ function Dashboard({ journey, process: p, isNew }: { journey: Journey; process: 
               </ol>
             )}
             {tab === "checklist" && <Checklist journey={journey} docs={v.documents} steps={v.steps} />}
+            {tab === "official" && <OfficialLive slug={p.slug} scope={p.scope} compact />}
             {tab === "links" && (
               <div className="space-y-3">
-                <div className="grid gap-3 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                   {p.links.map((l) => (
                     <OfficialLinkCard key={l.id} link={l} />
                   ))}

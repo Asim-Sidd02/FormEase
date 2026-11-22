@@ -248,12 +248,12 @@ export const domicileCertificate: Process = {
     "Check whether the institution wants a certificate issued after a certain date.",
   ],
   links: [
-    { id: "services", label: "National Government Services Portal (find your state's service)", url: "https://services.india.gov.in/", purpose: "locate", org: "Government of India", lastChecked: "2026-11-02" },
+    { id: "services", label: "National Government Services Portal (find your state's service)", url: "https://www.india.gov.in/services", purpose: "locate", org: "Government of India", lastChecked: "2026-11-02" },
     { id: "india", label: "National Portal of India", url: "https://www.india.gov.in/", purpose: "info", org: "Government of India", lastChecked: "2026-11-02" },
     { id: "cpgrams", label: "Public grievance portal (CPGRAMS)", url: "https://pgportal.gov.in/", purpose: "grievance", org: "Department of Administrative Reforms & Public Grievances", lastChecked: "2026-11-02" },
   ],
   sources: [
-    { title: "National Government Services Portal — state certificate services", org: "Government of India", url: "https://services.india.gov.in/" },
+    { title: "National Government Services Portal — state certificate services", org: "Government of India", url: "https://www.india.gov.in/services" },
     { title: "National Portal of India", org: "Government of India", url: "https://www.india.gov.in/" },
   ],
   faqs: [

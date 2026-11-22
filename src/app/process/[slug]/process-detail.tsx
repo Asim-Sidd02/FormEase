@@ -33,12 +33,14 @@ import { COMPLEXITY_TONE, ProcessCard, VerifiedPill } from "@/components/process
 import { OfficialLinkCard } from "@/components/official-link";
 import { ReportIssueButton } from "@/components/report-issue";
 import { AssistantDrawer } from "@/components/assistant";
+import { OfficialLive } from "@/components/official-live";
 import { formatDate } from "@/lib/reminders";
 import type { DocKind, Process } from "@/lib/types";
 import { DOC_KIND, MODE } from "@/lib/labels";
 
 const SECTIONS = [
   { id: "overview", label: "Overview" },
+  { id: "official", label: "Live official data" },
   { id: "documents", label: "Documents" },
   { id: "steps", label: "Steps" },
   { id: "fees", label: "Fees & time" },
@@ -102,7 +104,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
       </nav>
 
       {/* ------------------------------ Header ------------------------------ */}
-      <header className="mt-6 grid gap-8 lg:grid-cols-[1fr_340px]">
+      <header className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_340px]">
         <div className="animate-fade-up">
           <div className="flex items-start gap-4">
             <IconTile name={p.icon} category={p.category} size="lg" />
@@ -117,10 +119,10 @@ export function ProcessDetail({ slug }: { slug: string }) {
               </div>
             </div>
           </div>
-          <p className="mt-5 max-w-2xl text-lg text-muted">{p.summary}</p>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted sm:text-lg sm:leading-8">{p.summary}</p>
 
           {due && (
-            <div role="status" className="mt-5 flex max-w-2xl gap-3 rounded-2xl border border-warning/30 bg-warning-soft p-4 text-sm">
+            <div role="status" className="mt-5 flex max-w-2xl gap-3 rounded-xl border border-warning/30 bg-warning-soft p-4 text-sm">
               <CalendarClock className="mt-0.5 size-5 shrink-0 text-warning" aria-hidden />
               <p>
                 <strong>This guide is due for re-verification.</strong> It was last checked on {formatDate(p.lastVerified)}. It&apos;s probably still useful, but double-check fees and documents on the official portal before you apply.
@@ -128,7 +130,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
             </div>
           )}
           {p.scope === "State-specific" && (
-            <div className="mt-4 flex max-w-2xl gap-3 rounded-2xl border border-info/25 bg-info-soft p-4 text-sm">
+            <div className="mt-4 flex max-w-2xl gap-3 rounded-xl border border-info/25 bg-info-soft p-4 text-sm">
               <MapPinned className="mt-0.5 size-5 shrink-0 text-info" aria-hidden />
               <p>
                 <strong>Rules differ by state.</strong> {p.scopeNote ?? "We'll ask your state in the guided journey and flag anything that may differ. Nothing here should be read as a nationwide rule."}
@@ -168,7 +170,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
       </header>
 
       {/* ------------------------------ Body ------------------------------ */}
-      <div className="mt-12 grid gap-10 lg:grid-cols-[200px_1fr]">
+      <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr]">
         <nav aria-label="On this page" className="hidden lg:block">
           <ul className="sticky top-24 space-y-0.5 border-l border-line">
             {SECTIONS.map((s) => (
@@ -192,17 +194,21 @@ export function ProcessDetail({ slug }: { slug: string }) {
         <div className="min-w-0 space-y-14">
           <Section id="overview" title="Overview">
             <p className="text-[17px] leading-relaxed">{p.description}</p>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
               <InfoList icon={<Users className="size-4" />} title="Who it's for" items={p.forWho} />
               <InfoList icon={<Split className="size-4" />} title="Situations covered" items={p.situations} />
               <InfoList icon={<CircleAlert className="size-4" />} title="Before you start" items={p.prerequisites} />
             </div>
-            <div className="mt-4 flex gap-3 rounded-2xl border border-line bg-surface p-4 text-sm">
+            <div className="mt-4 flex gap-3 rounded-xl border border-line bg-surface p-4 text-sm">
               <Building2 className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
               <p>
                 <strong>Will I need to visit an office?</strong> <span className="text-muted">{p.inPerson}</span>
               </p>
             </div>
+          </Section>
+
+          <Section id="official" title="Live from official sources" desc="What the official websites say right now — read automatically and quoted word-for-word, with where and when we read it.">
+            <OfficialLive slug={p.slug} scope={p.scope} />
           </Section>
 
           <Section id="documents" title="Documents commonly needed" desc="Your guided journey narrows this down to exactly what applies to you.">
@@ -219,7 +225,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
                       <span className="z-10 grid size-9 shrink-0 place-items-center rounded-full border-2 border-brand bg-surface text-sm font-bold text-brand">{i + 1}</span>
                       {i < p.steps.length - 1 && <span className="w-0.5 flex-1 bg-line" aria-hidden />}
                     </div>
-                    <div className="mb-2 flex-1 rounded-2xl border border-line bg-surface p-4 shadow-soft">
+                    <div className="mb-2 flex-1 rounded-xl border border-line bg-surface p-4">
                       <div className="flex flex-wrap items-center gap-2">
                         <h3 className="font-bold">{s.title}</h3>
                         <Badge tone="neutral" icon={<M.icon className="size-3" />}>{M.label}</Badge>
@@ -240,7 +246,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
           </Section>
 
           <Section id="fees" title="Fees & time">
-            <div className="grid gap-4 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <Card className="overflow-hidden">
                 <div className="flex items-center gap-2 border-b border-line px-4 py-3">
                   <Wallet className="size-4 text-brand" aria-hidden />
@@ -287,13 +293,16 @@ export function ProcessDetail({ slug }: { slug: string }) {
                 </p>
               </Card>
             </div>
+            <a href="#official" className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">
+              Compare with the fees stated on the official pages right now →
+            </a>
             <p className="mt-3 text-xs text-muted">
               Government fees are paid only on official portals or at official counters. Optional agent or service charges are never part of the government fee.
             </p>
           </Section>
 
           <Section id="tips" title="Common mistakes & practical tips">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Card className="p-5">
                 <h3 className="flex items-center gap-2 font-bold">
                   <AlertTriangle className="size-4 text-danger" aria-hidden /> Avoid these mistakes
@@ -325,7 +334,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
           </Section>
 
           <Section id="links" title="Official links" desc="Apply, pay and track only on these official sites.">
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {p.links.map((l) => (
                 <OfficialLinkCard key={l.id} link={l} />
               ))}
@@ -347,7 +356,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
 
           <Section id="sources" title="Sources & verification">
             <Card className="p-5">
-              <dl className="grid gap-4 text-sm sm:grid-cols-4">
+              <dl className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-4">
                 <Meta label="Last verified" value={formatDate(p.lastVerified)} />
                 <Meta label="Next review" value={formatDate(p.reviewDue)} />
                 <Meta label="Maintained by" value={p.owner} />
@@ -390,7 +399,7 @@ export function ProcessDetail({ slug }: { slug: string }) {
           {p.related.length > 0 && (
             <section aria-labelledby="related">
               <h2 id="related" className="mb-4 font-display text-2xl font-semibold">Related processes</h2>
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {p.related
                   .map(getProcess)
                   .filter(Boolean)
@@ -480,7 +489,7 @@ function DocGroups({ p }: { p: Process }) {
               <Badge tone={DOC_KIND[k].tone}>{DOC_KIND[k].label}</Badge>
               <span className="text-xs text-muted">{DOC_KIND[k].desc}</span>
             </div>
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {list.map((d) => (
                 <div key={d.id} className="rounded-2xl border border-line bg-surface p-4">
                   <h3 className="font-bold">{d.name}</h3>

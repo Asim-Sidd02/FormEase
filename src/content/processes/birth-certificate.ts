@@ -330,12 +330,12 @@ export const birthCertificate: Process = {
   ],
   links: [
     { id: "crs", label: "Civil Registration System (CRS) portal", url: "https://crsorgi.gov.in/", purpose: "apply", org: "Office of the Registrar General, India", lastChecked: "2026-10-05" },
-    { id: "services", label: "National Government Services Portal (find your state's portal)", url: "https://services.india.gov.in/", purpose: "locate", org: "Government of India", lastChecked: "2026-10-05" },
+    { id: "services", label: "National Government Services Portal (find your state's portal)", url: "https://www.india.gov.in/services", purpose: "locate", org: "Government of India", lastChecked: "2026-10-05" },
     { id: "cpgrams", label: "Public grievance portal (CPGRAMS)", url: "https://pgportal.gov.in/", purpose: "grievance", org: "Department of Administrative Reforms & Public Grievances", lastChecked: "2026-10-05" },
   ],
   sources: [
     { title: "Civil Registration System — birth and death registration", org: "Office of the Registrar General, India", url: "https://crsorgi.gov.in/" },
-    { title: "National Government Services Portal", org: "Government of India", url: "https://services.india.gov.in/" },
+    { title: "National Government Services Portal", org: "Government of India", url: "https://www.india.gov.in/services" },
   ],
   faqs: [
     { q: "Do I need to visit an office?", a: "For a timely hospital birth, often not — the hospital reports it. Home births, late registration and corrections usually need a visit to the registrar's office." },

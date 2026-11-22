@@ -66,19 +66,19 @@ export function SiteHeader() {
       <header
         className={cn(
           "sticky top-0 z-50 border-b transition-[background,border-color,box-shadow] duration-200",
-          scrolled ? "border-line bg-bg/85 shadow-[0_1px_0_rgba(0,0,0,0.02)] backdrop-blur-xl" : "border-transparent bg-bg",
+          scrolled ? "border-line bg-surface/95 shadow-[0_2px_10px_rgba(20,42,32,0.035)] backdrop-blur-xl" : "border-line bg-surface",
         )}
       >
-        <div className="container-page flex h-16 items-center gap-3">
+        <div className="container-page flex h-[68px] items-center gap-3">
           <Logo />
-          <nav aria-label="Main" className="ml-6 hidden items-center gap-0.5 lg:flex">
+          <nav aria-label="Main" className="ml-6 hidden items-center gap-1 lg:flex">
             {NAV.map((n) => (
               <Link
                 key={n.href}
                 href={n.href}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-semibold transition",
-                  pathname.startsWith(n.href) ? "bg-surface-2 text-fg" : "text-muted hover:text-fg",
+                  "rounded-md px-3 py-2 text-[13px] font-semibold transition",
+                  pathname.startsWith(n.href) ? "bg-surface-2 text-fg" : "text-muted hover:bg-surface-2/70 hover:text-fg",
                 )}
               >
                 {n.label}
@@ -89,21 +89,21 @@ export function SiteHeader() {
           <div className="ml-auto flex items-center gap-1.5">
             <button
               onClick={() => setOpen(true)}
-              className="hidden h-10 w-60 items-center gap-2.5 whitespace-nowrap rounded-xl border border-line bg-surface px-3 text-sm text-subtle shadow-soft transition hover:border-line-strong md:flex"
+              className="hidden h-10 w-56 items-center gap-2.5 whitespace-nowrap rounded-lg border border-line bg-bg px-3 text-[13px] text-subtle transition hover:border-line-strong hover:bg-surface md:flex"
               aria-label="Search processes"
             >
               <Search className="size-4 shrink-0" aria-hidden />
               <span className="flex-1 truncate text-left">Search processes…</span>
               <Kbd>Ctrl K</Kbd>
             </button>
-            <button onClick={() => setOpen(true)} className="grid size-10 place-items-center rounded-xl text-muted hover:bg-surface-2 hover:text-fg md:hidden" aria-label="Search processes">
+            <button onClick={() => setOpen(true)} className="grid size-10 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-fg md:hidden" aria-label="Search processes">
               <Search className="size-[19px]" />
             </button>
             <ThemeToggle />
 
             {signedIn ? (
               <>
-                <Link href="/reminders" className="relative hidden size-10 place-items-center rounded-xl text-muted hover:bg-surface-2 hover:text-fg sm:grid" aria-label={`Reminders${due ? `, ${due} due` : ""}`}>
+              <Link href="/reminders" className="relative hidden size-10 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-fg sm:grid" aria-label={`Reminders${due ? `, ${due} due` : ""}`}>
                   <Bell className="size-[19px]" />
                   {due > 0 && <span className="absolute right-2 top-2 size-2.5 rounded-full bg-accent ring-2 ring-bg" />}
                 </Link>
@@ -117,7 +117,7 @@ export function SiteHeader() {
                     onClick={() => setMenu((m) => !m)}
                     aria-expanded={menu}
                     aria-haspopup="menu"
-                    className="ml-1 grid size-10 place-items-center rounded-full bg-brand text-sm font-bold text-brand-fg ring-2 ring-transparent transition hover:ring-brand/30"
+                    className="ml-1 grid size-9 place-items-center rounded-full bg-brand-soft text-xs font-bold text-brand ring-1 ring-brand/10 transition hover:ring-brand/30"
                     aria-label="Account menu"
                   >
                     {initials}
@@ -155,7 +155,7 @@ export function SiteHeader() {
                 </Link>
               </span>
             )}
-            <button onClick={() => setMobile(true)} className="grid size-10 place-items-center rounded-xl text-muted hover:bg-surface-2 lg:hidden" aria-label="Open menu">
+            <button onClick={() => setMobile(true)} className="grid size-10 place-items-center rounded-lg text-muted hover:bg-surface-2 lg:hidden" aria-label="Open menu">
               <Menu className="size-5" />
             </button>
           </div>

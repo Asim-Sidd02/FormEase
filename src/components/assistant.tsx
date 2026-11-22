@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowUp, BadgeCheck, BookOpen, CircleHelp, EyeOff, Info, Sparkles, ThumbsDown, ThumbsUp, X } from "lucide-react";
-import { answer, redact, suggestionsFor, type AssistantReply, type Block } from "@/lib/assistant";
+import { ArrowUp, BadgeCheck, Radio, BookOpen, CircleHelp, EyeOff, Info, Sparkles, ThumbsDown, ThumbsUp, X } from "lucide-react";
+import { answer, redact, suggestionsFor, withOfficial, type AssistantReply, type Block } from "@/lib/assistant";
+import { hostOf, searchOfficialPassages } from "@/lib/sources/client";
+import { relativeTime } from "@/lib/reminders";
 import type { Journey, Process } from "@/lib/types";
 import { useStore } from "@/lib/store";
 import { cn } from "./ui";
@@ -41,6 +43,15 @@ function Blocks({ blocks }: { blocks: Block[] }) {
               </li>
             ))}
           </ul>
+        ) : b.type === "quote" ? (
+          <figure key={i} className="rounded-xl border border-brand/25 bg-brand-soft/40 p-3">
+            <blockquote className="text-[14px] leading-relaxed text-fg/90 [overflow-wrap:anywhere]">“{b.text}”</blockquote>
+            <figcaption className="mt-2 text-[11.5px] leading-snug text-muted">
+              <Radio className="mr-1 inline size-3.5 align-[-2px] text-brand" aria-hidden />
+              <a href={b.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand hover:underline">{b.org}</a>
+              <span className="whitespace-nowrap"> · {hostOf(b.url)}{b.fetchedAt ? ` · read ${relativeTime(b.fetchedAt)}` : ""}</span>
+            </figcaption>
+          </figure>
         ) : (
           <p key={i} className="flex gap-2 rounded-xl bg-surface-2 px-3 py-2 text-[13px]">
             <Info className="mt-0.5 size-4 shrink-0 text-info" aria-hidden />
@@ -54,6 +65,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
 const GROUNDING = {
   verified: { label: "From verified guide", cls: "bg-brand-soft text-brand", icon: BadgeCheck },
+  official: { label: "Official source (live)", cls: "bg-brand-soft text-brand", icon: Radio },
   general: { label: "General guidance", cls: "bg-info-soft text-info", icon: Info },
   not_found: { label: "Couldn't verify", cls: "bg-warning-soft text-warning", icon: CircleHelp },
 };
@@ -80,11 +92,22 @@ export function AssistantChat({ process, journey, compact }: { process?: Process
     setInput("");
     setThinking(true);
     if (changed) toast("We removed an ID-like number from your message", { tone: "warning", desc: "Never share Aadhaar, PAN, passport numbers or OTPs in chat." });
-    setTimeout(() => {
-      const reply = answer(q, { process, journey: ctxJourney });
-      setMsgs((m) => [...m, { id: Date.now() + 1, role: "assistant", reply }]);
-      setThinking(false);
-    }, 450 + Math.random() * 350);
+    const started = Date.now();
+    (async () => {
+      let reply = answer(q, { process, journey: ctxJourney });
+      // Add verbatim passages from the live official pages for this process, when they match.
+      if (reply.processSlug && reply.grounding !== "general") {
+        const passages = await searchOfficialPassages(reply.processSlug, text);
+        reply = withOfficial(reply, passages);
+        const extra = passages.slice(0, 3).map((p) => ({ label: `${p.org} — ${hostOf(p.url)} (live)`, url: p.url }));
+        reply = { ...reply, sources: [...reply.sources, ...extra.filter((e, i) => extra.findIndex((x) => x.url === e.url) === i)] };
+      }
+      const wait = Math.max(0, 400 - (Date.now() - started));
+      setTimeout(() => {
+        setMsgs((m) => [...m, { id: Date.now() + 1, role: "assistant", reply }]);
+        setThinking(false);
+      }, wait);
+    })();
   };
 
   const rate = (id: number, r: "up" | "down") => {
@@ -109,7 +132,7 @@ export function AssistantChat({ process, journey, compact }: { process?: Process
               </div>
             </div>
             <ul className="mt-4 space-y-2 text-[13px] text-muted">
-              <li className="flex gap-2"><BookOpen className="size-4 shrink-0 text-brand" /> Answers come only from FormEase&apos;s verified guides, with sources.</li>
+              <li className="flex gap-2"><BookOpen className="size-4 shrink-0 text-brand" /> Answers come from FormEase&apos;s verified guides and live official pages, with sources.</li>
               <li className="flex gap-2"><EyeOff className="size-4 shrink-0 text-brand" /> Don&apos;t share Aadhaar, PAN, passport numbers, OTPs or passwords.</li>
             </ul>
             <div className="mt-5 flex flex-col gap-2">
@@ -177,7 +200,7 @@ export function AssistantChat({ process, journey, compact }: { process?: Process
             {[0, 1, 2].map((i) => (
               <span key={i} className="size-2 animate-bounce rounded-full bg-brand/60" style={{ animationDelay: `${i * 120}ms` }} />
             ))}
-            <span className="ml-1.5 text-xs">Checking verified guides…</span>
+            <span className="ml-1.5 text-xs">Checking our guide and the official pages…</span>
           </div>
         )}
         {msgs.length > 0 && !thinking && (

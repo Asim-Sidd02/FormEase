@@ -11,6 +11,11 @@ const cols = [
       { href: "/category/identity", label: "Identity & documents" },
       { href: "/category/certificates", label: "Certificates" },
       { href: "/category/transport", label: "Driving & transport" },
+      { href: "/category/business", label: "Business setup" },
+      { href: "/category/education", label: "Education" },
+      { href: "/category/employment", label: "Employment & PF" },
+      { href: "/category/property", label: "Property & housing" },
+      { href: "/category/schemes", label: "Schemes & benefits" },
     ],
   },
   {
@@ -35,12 +40,12 @@ const cols = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-line bg-surface pb-24 md:pb-0">
-      <div className="container-page grid gap-10 py-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+    <footer className="mt-20 border-t border-line bg-surface pb-24 md:pb-0">
+      <div className="container-page grid grid-cols-1 gap-10 py-10 sm:py-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
         <div className="max-w-sm">
           <Logo />
           <p className="mt-3 text-sm text-muted">Know what to do. Do it with confidence. Plain-language, source-backed guidance for India&apos;s official processes.</p>
-          <div className="mt-5 flex gap-3 rounded-2xl border border-line bg-surface-2/60 p-3.5 text-[13px] text-muted">
+          <div className="mt-5 flex gap-3 rounded-xl border border-line bg-surface-2/60 p-3.5 text-[13px] text-muted">
             <ShieldCheck className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
             <p>
               <strong className="text-fg">FormEase is independent.</strong> We are not a government website and are not affiliated with any government body. Applications, payments and final submissions happen only on official portals.

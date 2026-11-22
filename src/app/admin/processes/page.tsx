@@ -35,7 +35,7 @@ export default function AdminProcesses() {
       <h1 className="font-display text-3xl font-semibold">Processes</h1>
       <p className="mt-1 text-muted">Every guide, its verification status and review schedule.</p>
 
-      <div className="mt-6 grid gap-2 sm:grid-cols-2 xl:grid-cols-[1fr_auto_auto_auto]">
+      <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-[1fr_auto_auto_auto]">
         <div className="relative">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-subtle" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search guides" aria-label="Search guides" className={cn(inputClass, "py-2 pl-9")} />

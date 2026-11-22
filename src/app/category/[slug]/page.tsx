@@ -43,7 +43,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       </div>
       <div className="mt-10">
         {list.length ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {list.map((p) => (
               <ProcessCard key={p.slug} p={p} />
             ))}

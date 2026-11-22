@@ -64,7 +64,7 @@ export function AccountView() {
 
       <div className="mt-10 space-y-6">
         <Section icon={<UserIcon className="size-5" />} title="Profile">
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Name" htmlFor="ac-name">
               <input id="ac-name" defaultValue={u.name} onBlur={(e) => e.target.value.trim() && e.target.value !== u.name && (s.updateUser({ name: e.target.value.trim() }), toast("Name updated"))} className={inputClass} maxLength={40} />
             </Field>

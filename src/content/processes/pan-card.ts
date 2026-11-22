@@ -43,6 +43,7 @@ export const panCard: Process = {
     "protean",
     "utiitsl",
     "form 49a",
+    "form 93",
   ],
   complexity: "Easy",
   scope: "National",
@@ -51,14 +52,14 @@ export const panCard: Process = {
     { label: "Instant e-PAN via Aadhaar (Income Tax portal)", amount: "Free", kind: "government" },
     {
       label: "New PAN / correction with physical card to an Indian address",
-      amount: "Around ₹107",
-      note: "Approximate — confirm the current fee on the Protean or UTIITSL portal before paying.",
+      amount: "₹107",
+      note: "As stated by UTIITSL (₹1,017 if the card is dispatched outside India). Protean's fee may differ slightly — the portal shows it before payment.",
       kind: "government",
     },
     {
       label: "e-PAN only (no physical card), via Protean / UTIITSL",
-      amount: "Lower than the physical-card fee",
-      note: "Confirm the current amount on the portal.",
+      amount: "₹72",
+      note: "As stated by UTIITSL — the e-PAN is emailed to you.",
       kind: "government",
     },
   ],
@@ -248,7 +249,7 @@ export const panCard: Process = {
     {
       id: "fill-apply",
       title: "Fill the application and upload documents",
-      summary: "New PAN (Form 49A for Indian citizens) or the change/correction/reprint form.",
+      summary: "New PAN (Form No. 93 for Indian citizens — previously Form 49A) or the change/correction/reprint form.",
       why: "The details you enter are what will be printed on your PAN.",
       action: "Select the right application type, fill in your details exactly as on your documents, and upload scans (or choose Aadhaar e-KYC / e-sign if available).",
       details: [
@@ -323,14 +324,15 @@ export const panCard: Process = {
   ],
   links: [
     { id: "incometax", label: "Income Tax e-filing portal", url: "https://www.incometax.gov.in/", purpose: "apply", org: "Income Tax Department", lastChecked: "2026-11-10" },
-    { id: "protean", label: "Protean (formerly NSDL e-Gov) — PAN services", url: "https://www.protean-tinpan.com/", purpose: "apply", org: "Protean eGov Technologies (authorised by the Income Tax Department)", lastChecked: "2026-11-10" },
+    { id: "protean", label: "Protean (formerly NSDL e-Gov) — PAN services", url: "https://tinpan.proteantech.in/", purpose: "apply", org: "Protean eGov Technologies (authorised by the Income Tax Department)", lastChecked: "2026-11-10" },
     { id: "utiitsl", label: "UTIITSL — PAN services", url: "https://www.pan.utiitsl.com/", purpose: "apply", org: "UTI Infrastructure Technology and Services Ltd (authorised by the Income Tax Department)", lastChecked: "2026-11-10" },
     { id: "cpgrams", label: "Public grievance portal (CPGRAMS)", url: "https://pgportal.gov.in/", purpose: "grievance", org: "Department of Administrative Reforms & Public Grievances", lastChecked: "2026-11-10" },
   ],
   sources: [
     { title: "Income Tax e-filing portal — Instant e-PAN", org: "Income Tax Department", url: "https://www.incometax.gov.in/" },
-    { title: "Protean — PAN application and correction", org: "Protean eGov Technologies", url: "https://www.protean-tinpan.com/" },
-    { title: "UTIITSL — PAN services", org: "UTIITSL", url: "https://www.pan.utiitsl.com/" },
+    { title: "Protean — PAN application and correction", org: "Protean eGov Technologies", url: "https://tinpan.proteantech.in/" },
+    { title: "UTIITSL — PAN services and fees", org: "UTIITSL", url: "https://www.pan.utiitsl.com/" },
+    { title: "Documents accepted for PAN — Form No. 93, Rule 158 (PDF)", org: "UTIITSL", url: "https://www.pan.utiitsl.com/downloadFile?FileName=DocumentsForPAN.pdf" },
   ],
   faqs: [
     { q: "Is e-PAN as valid as the physical card?", a: "Yes. The e-PAN is a valid form of PAN. The physical card is optional." },
@@ -345,11 +347,11 @@ export const panCard: Process = {
     { term: "Objection / discrepancy", meaning: "Something in your application or documents didn't match.", next: "Read the objection, fix the issue and respond through the same portal." },
   ],
   related: ["aadhaar-address-update", "passport-new", "voter-id"],
-  lastVerified: "2026-11-10",
+  lastVerified: "2026-11-22",
   reviewDue: "2027-02-10",
   status: "published",
   owner: "Identity desk",
-  version: "1.2",
+  version: "1.3",
   limitations:
-    "Covers individual Indian citizens. PAN for foreign citizens (Form 49AA), companies, firms and trusts follows different rules. PAN services are being consolidated (PAN 2.0) — portal details may change.",
+    "Covers individual Indian citizens. PAN for foreign citizens (Form No. 95, previously 49AA), companies, firms and trusts follows different rules. PAN services are being consolidated (PAN 2.0) — portal details may change.",
 };

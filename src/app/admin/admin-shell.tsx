@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ClipboardCheck, FileStack, History, Inbox, LayoutDashboard, Lock } from "lucide-react";
+import { ClipboardCheck, FileStack, History, Inbox, LayoutDashboard, Lock, Radio } from "lucide-react";
 import { useHydrated, useAllProcesses } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { buttonClass, cn, Skeleton } from "@/components/ui";
@@ -12,6 +12,7 @@ const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/processes", label: "Processes", icon: FileStack },
   { href: "/admin/reviews", label: "Review queue", icon: ClipboardCheck, badge: "reviews" as const },
+  { href: "/admin/sources", label: "Official sources", icon: Radio },
   { href: "/admin/feedback", label: "User reports", icon: Inbox, badge: "reports" as const },
   { href: "/admin/audit", label: "Audit log", icon: History },
 ];
@@ -60,7 +61,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="container-page grid gap-6 pb-10 pt-6 lg:grid-cols-[220px_1fr] lg:pt-8">
+    <div className="container-page grid grid-cols-1 gap-6 pb-10 pt-6 lg:grid-cols-[220px_1fr] lg:pt-8">
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <div className="mb-3 hidden rounded-2xl border border-line bg-surface p-3.5 lg:block">
           <p className="text-[11px] font-bold uppercase tracking-wider text-subtle">Content console</p>

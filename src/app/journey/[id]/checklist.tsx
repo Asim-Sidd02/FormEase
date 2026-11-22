@@ -150,7 +150,7 @@ function DocRow({ d, journey, steps }: { d: DocumentRequirement; journey: Journe
           {d.alternatives && (
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-subtle">Accepted — any one of</p>
-              <ul className="mt-1.5 grid gap-1 sm:grid-cols-2">
+              <ul className="mt-1.5 grid grid-cols-1 gap-1 sm:grid-cols-2">
                 {d.alternatives.map((a) => (
                   <li key={a} className="flex gap-2 text-muted">
                     <Check className="mt-0.5 size-3.5 shrink-0 text-brand" /> {a}

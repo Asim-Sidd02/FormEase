@@ -51,7 +51,7 @@ export function StatusHelp({ open, onClose, process, journey }: { open: boolean;
       <div className="space-y-6">
         <fieldset>
           <legend className="mb-2.5 text-sm font-semibold">What&apos;s your current status?</legend>
-          <div className="grid gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
             {STATUSES.map((s) => (
               <button
                 key={s.value}
@@ -155,7 +155,7 @@ export function StatusHelp({ open, onClose, process, journey }: { open: boolean;
         {help.length > 0 && status && (
           <div>
             <p className="mb-2 text-sm font-semibold">Official tracking & grievance routes</p>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {help.map((l) => (
                 <OfficialLinkCard key={l.id} link={l} compact />
               ))}
