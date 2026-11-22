@@ -157,7 +157,10 @@ export const useStore = create<State>()(
             // guest journeys on this device become saved journeys
             journeys: s.journeys.map((j) => (j.saved ? j : touch({ ...j, saved: true }, "Saved to your account"))),
           })),
-        signOut: () => set({ user: null }),
+        signOut: () => {
+          if (typeof window !== "undefined") void fetch("/api/auth/sign-out", { method: "POST" }).catch(() => undefined);
+          set({ user: null });
+        },
         updateUser: (patch) => set((s) => (s.user ? { user: { ...s.user, ...patch } } : s)),
         setRole: (role) => set((s) => (s.user ? { user: { ...s.user, role } } : s)),
 

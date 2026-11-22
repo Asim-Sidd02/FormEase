@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader, MobileTabBar } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Toaster } from "@/components/toast";
+import { AuthSync } from "@/components/auth-sync";
 import { themeScript } from "@/components/theme";
 
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteFooter />
         <MobileTabBar />
         <Toaster />
+        <AuthSync />
       </body>
     </html>
   );

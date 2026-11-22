@@ -27,26 +27,44 @@ export function SignInForm({ next }: { next: string }) {
     if (hydrated && user && stage === "form") router.replace(next);
   }, [hydrated, user, next, router, stage]);
 
-  const sendCode = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError("Enter a valid email address.");
-    setError("");
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setStage("code");
-    }, 700);
+  const post = async (url: string, body: unknown) => {
+    const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const data = (await r.json().catch(() => ({}))) as { error?: string; user?: { email: string; name: string } };
+    if (!r.ok) throw new Error(data.error ?? "Something went wrong. Please try again.");
+    return data;
   };
 
-  const verify = (e: React.FormEvent) => {
+  const sendCode = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError("Enter a valid email address.");
+    setError("");
+    setLoading(true);
+    try {
+      await post("/api/auth/send-code", { email });
+      setCode("");
+      setStage("code");
+      if (!e) toast("New code sent");
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!/^\d{6}$/.test(code)) return setError("Enter the 6-digit code.");
+    setError("");
     setLoading(true);
-    setTimeout(() => {
-      signIn(email.trim().toLowerCase(), name.trim());
+    try {
+      const { user: u } = await post("/api/auth/verify", { email, code, name });
+      signIn(u!.email, u!.name);
       toast("You're signed in", { desc: guestCount ? `${guestCount} journey${guestCount > 1 ? "s" : ""} saved to your account.` : undefined });
       router.replace(next);
-    }, 500);
+    } catch (err) {
+      setError((err as Error).message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,14 +89,20 @@ export function SignInForm({ next }: { next: string }) {
           </>
         ) : (
           <>
-            <button onClick={() => setStage("form")} className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-fg">
+            <button onClick={() => { setError(""); setStage("form"); }} className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-fg">
               <ArrowLeft className="size-4" /> Use a different email
             </button>
             <h1 className="mt-3 font-display text-3xl font-semibold">Check your inbox</h1>
             <p className="mt-2 text-muted">
               We sent a 6-digit code to <strong className="text-fg">{email}</strong>.
             </p>
-            <p className="mt-3 rounded-xl border border-info/25 bg-info-soft px-3 py-2 text-[13px] text-info">Preview build: email delivery isn&apos;t connected, so any 6 digits will work.</p>
+            <p className="mt-2 text-sm text-muted">
+              Didn&apos;t get it? Check spam, or{" "}
+              <button type="button" onClick={() => sendCode()} disabled={loading} className="font-semibold text-brand hover:underline disabled:opacity-50">
+                send a new code
+              </button>
+              .
+            </p>
             <form onSubmit={verify} className="mt-6 space-y-4" noValidate>
               <Field label="Verification code" htmlFor="si-code" error={error}>
                 <input
