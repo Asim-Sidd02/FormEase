@@ -4,6 +4,15 @@ import { createSessionToken, normalizeEmail, sessionCookie, verifyCode } from "@
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  try {
+    return await handle(req);
+  } catch (err) {
+    console.error(`[auth] /api/auth/verify failed:`, err);
+    return NextResponse.json({ error: "Sign-in is temporarily unavailable. Please try again shortly." }, { status: 500 });
+  }
+}
+
+async function handle(req: Request) {
   const { email, code, name } = (await req.json().catch(() => ({}))) as { email?: string; code?: string; name?: string };
   const e = normalizeEmail(email ?? "");
   if (!e || !/^\d{6}$/.test(code ?? "")) return NextResponse.json({ error: "Enter the 6-digit code." }, { status: 400 });

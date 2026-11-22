@@ -11,9 +11,10 @@ export function AuthSync() {
     if (!hydrated) return;
     let cancelled = false;
     fetch("/api/auth/me", { cache: "no-store" })
-      .then((r) => r.json() as Promise<{ user: { email: string; name: string } | null }>)
-      .then(({ user }) => {
-        if (cancelled) return;
+      .then((r) => (r.ok ? (r.json() as Promise<{ user: { email: string; name: string } | null }>) : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        const { user } = data;
         const s = useStore.getState();
         if (!user) {
           if (s.user) useStore.setState({ user: null });
