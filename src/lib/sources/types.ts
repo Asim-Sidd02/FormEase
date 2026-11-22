@@ -2,7 +2,7 @@
 
 /** html = server-rendered page · pdf = official document · spa = JavaScript app, needs a headless browser */
 export type SourceKind = "html" | "pdf" | "spa";
-export type SourceTopic = "fees" | "documents" | "steps" | "eligibility" | "timelines" | "forms" | "faq" | "directory";
+export type SourceTopic = "fees" | "documents" | "steps" | "eligibility" | "timelines" | "forms" | "faq" | "directory" | "status";
 
 export interface TrackedSource {
   id: string;
