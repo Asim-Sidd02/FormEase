@@ -9,8 +9,16 @@ import path from "node:path";
  * - Local development without those vars: a JSON file under FORMEASE_DATA_DIR (default ./.data/kv.json).
  */
 
-const URL_ = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
-const TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
+/** Finds the env var even when Vercel's integration added a custom prefix (e.g. STORAGE_KV_REST_API_URL). */
+function env(...suffixes: string[]): string | undefined {
+  for (const s of suffixes) if (process.env[s]) return process.env[s];
+  for (const s of suffixes) {
+    const k = Object.keys(process.env).find((key) => key.endsWith(`_${s}`) && process.env[key]);
+    if (k) return process.env[k];
+  }
+}
+const URL_ = env("KV_REST_API_URL", "UPSTASH_REDIS_REST_URL");
+const TOKEN = env("KV_REST_API_TOKEN", "UPSTASH_REDIS_REST_TOKEN");
 export const usingRedis = !!(URL_ && TOKEN);
 
 async function redis<T = unknown>(...cmd: (string | number)[]): Promise<T> {
