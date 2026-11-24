@@ -14,6 +14,7 @@ import { dueReminders } from "@/lib/reminders";
 
 const NAV = [
   { href: "/search", label: "Browse guides" },
+  { href: "/schemes", label: "New schemes" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/how-we-verify", label: "How we verify" },
   { href: "/help", label: "Help" },

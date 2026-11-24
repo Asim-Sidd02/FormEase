@@ -44,16 +44,22 @@ function fileOp<T>(fn: (db: Record<string, Entry>) => T): Promise<T> {
     return Promise.reject(new Error("No database configured: connect Upstash Redis (KV_REST_API_URL / KV_REST_API_TOKEN)."));
   }
   const run = queue.then(async () => {
+    let raw = "";
     let db: Record<string, Entry> = {};
     try {
-      db = JSON.parse(await fs.readFile(FILE, "utf8"));
+      raw = await fs.readFile(FILE, "utf8");
+      db = JSON.parse(raw);
     } catch {}
     const now = Date.now();
     for (const [k, e] of Object.entries(db)) if (e.exp && e.exp < now) delete db[k];
     const result = fn(db);
-    await fs.mkdir(path.dirname(FILE), { recursive: true });
-    await fs.writeFile(`${FILE}.tmp`, JSON.stringify(db));
-    await fs.rename(`${FILE}.tmp`, FILE);
+    const next = JSON.stringify(db);
+    // Only touch the file when something changed: rewriting it on reads makes `next dev` reload pages.
+    if (next !== raw) {
+      await fs.mkdir(path.dirname(FILE), { recursive: true });
+      await fs.writeFile(`${FILE}.tmp`, next);
+      await fs.rename(`${FILE}.tmp`, FILE);
+    }
     return result;
   });
   queue = run.catch(() => undefined);

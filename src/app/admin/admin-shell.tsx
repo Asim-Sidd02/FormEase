@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ClipboardCheck, FileStack, History, Inbox, LayoutDashboard, Lock, Radio } from "lucide-react";
+import { ClipboardCheck, FileStack, History, Inbox, Landmark, LayoutDashboard, Lock, Radio } from "lucide-react";
 import { useHydrated, useAllProcesses } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { buttonClass, cn, Skeleton } from "@/components/ui";
@@ -13,6 +13,7 @@ const NAV = [
   { href: "/admin/processes", label: "Processes", icon: FileStack },
   { href: "/admin/reviews", label: "Review queue", icon: ClipboardCheck, badge: "reviews" as const },
   { href: "/admin/sources", label: "Official sources", icon: Radio },
+  { href: "/admin/schemes", label: "Schemes", icon: Landmark },
   { href: "/admin/feedback", label: "User reports", icon: Inbox, badge: "reports" as const },
   { href: "/admin/audit", label: "Audit log", icon: History },
 ];
